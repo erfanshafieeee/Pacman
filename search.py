@@ -114,11 +114,31 @@ def depthFirstSearch(problem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
+    explored = set() 
+    frontier = util.Stack()  
+    frontier.push((problem.getStartState(), []))  
+
+    while not frontier.isEmpty():
+        state, path = frontier.pop()
+
+        if problem.isGoalState(state):
+            return path  
+
+        if state not in explored:
+            explored.add(state)  
+
+            
+            for successor, action, stepCost in problem.expand(state):
+                if successor not in explored:
+                    frontier.push((successor, path + [action]))
+
+    return []
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+      
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):

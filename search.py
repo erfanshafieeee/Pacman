@@ -138,12 +138,7 @@ def breadthFirstSearch(problem):
     return []  
     util.raiseNotDefined()
 
-def nullHeuristic(state, problem=None):
-    """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
-    """
-    return 0
+
 def uniformCostSearch(problem: SearchProblem):
     explorednodes = set() 
     fringe = util.PriorityQueue()  

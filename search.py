@@ -121,27 +121,24 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
-def uniformCostSearch(problem):
-    frontier = util.PriorityQueue()
-    exploredNodes = {}
+def uniformCostSearch(problem: SearchProblem):
+    explorednodes = set() 
+    fringe = util.PriorityQueue()  
     startState = problem.getStartState()
-    startNode = (startState, [], 0) 
-    frontier.push(startNode, 0)
-    while not frontier.isEmpty(): 
-        currentState, actions, currentCost = frontier.pop()
-        if (currentState not in exploredNodes) or (currentCost < exploredNodes[currentState]):   
-            exploredNodes[currentState] = currentCost
-            if problem.isGoalState(currentState):
-                return actions
-            else:
-                successors = problem.getSuccessors(currentState)
-                for succState, succAction, succCost in successors:
-                    newAction = actions + [succAction]
-                    newCost = currentCost + succCost
-                    newNode = (succState, newAction, newCost)
-                    frontier.update(newNode, newCost)
-
-    return actions
+    fringe.push((startState, []), 0)  
+    while not fringe.isEmpty():
+        state, path = fringe.pop()
+        if problem.isGoalState(state):
+            return path  
+        if state not in explorednodes:
+            explorednodes.add(state)  
+            for successor, action, stepCost in problem.expand(state):
+                if successor not in explorednodes:
+                    newPath = path + [action]
+                    totalCost = problem.getCostOfActionSequence(newPath)
+                    fringe.push((successor, newPath), totalCost)
+    return []  
+    util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """

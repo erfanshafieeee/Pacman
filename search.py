@@ -100,29 +100,24 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 
+
 def depthFirstSearch(problem):
+    explorednodes = set() 
     fringe = util.Stack()
-    exploredNodes = []
-    startState = problem.getStartState()
-    startNode = (startState , [])
-    fringe.push(startNode)
+    startstate =  problem.getStartState()
+    startnode= (startstate, []) 
+    fringe.push(startnode) 
     while not fringe.isEmpty():
-        currentState , actions = fringe.pop()
-        if currentState not in exploredNodes:
-            exploredNodes.append(currentState)
-            if problem.isGoalState(currentState):
-                return actions
-            else:
-                successors = problem.getSuccessors(currentState)
-                for succState , succAction , succCost in successors:
-                    newAction = actions + [succAction]
-                    newNode = (succState , newAction)
-                    fringe.push(newNode)
-    return actions                
-
-
-
-
+        state, path = fringe.pop()
+        if problem.isGoalState(state):
+            return path  
+        if state not in explorednodes:
+            explorednodes.add(state)  
+            for successor, action, stepCost in problem.expand(state):
+                if successor not in explorednodes:
+                    fringe.push((successor, path + [action]))
+    return []  
+    util.raiseNotDefined()
 
 
 def breadthFirstSearch(problem):
@@ -143,6 +138,12 @@ def breadthFirstSearch(problem):
     return []  
     util.raiseNotDefined()
 
+def nullHeuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
 def uniformCostSearch(problem: SearchProblem):
     explorednodes = set() 
     fringe = util.PriorityQueue()  
@@ -162,12 +163,15 @@ def uniformCostSearch(problem: SearchProblem):
     return []  
     util.raiseNotDefined()
 
+    
 # def nullHeuristic(state, problem=None):
 #     """
 #     A heuristic function estimates the cost from the current state to the nearest
 #     goal in the provided SearchProblem.  This heuristic is trivial.
 #     """
 #     return 0
+
+
 
 def MANHATTANHeuristic(state, problem):
     current_location = state  
@@ -194,7 +198,7 @@ def aStarSearch(problem, heuristic=MANHATTANHeuristic):
                     totalCost = problem.getCostOfActionSequence(newPath) + heuristic(successor, problem)
                     frontier.push((successor, newPath), totalCost)
 
-    return [] 
+    return []
     util.raiseNotDefined()
 
 

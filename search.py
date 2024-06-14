@@ -121,6 +121,28 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
+def uniformCostSearch(problem):
+    frontier = util.PriorityQueue()
+    exploredNodes = {}
+    startState = problem.getStartState()
+    startNode = (startState, [], 0) 
+    frontier.push(startNode, 0)
+    while not frontier.isEmpty(): 
+        currentState, actions, currentCost = frontier.pop()
+        if (currentState not in exploredNodes) or (currentCost < exploredNodes[currentState]):   
+            exploredNodes[currentState] = currentCost
+            if problem.isGoalState(currentState):
+                return actions
+            else:
+                successors = problem.getSuccessors(currentState)
+                for succState, succAction, succCost in successors:
+                    newAction = actions + [succAction]
+                    newCost = currentCost + succCost
+                    newNode = (succState, newAction, newCost)
+                    frontier.update(newNode, newCost)
+
+    return actions
+
 def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest

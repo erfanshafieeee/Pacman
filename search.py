@@ -99,28 +99,24 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-
 def depthFirstSearch(problem):
+    explorednodes = set() 
     fringe = util.Stack()
-    exploredNodes = []
-    startState = problem.getStartState()
-    startNode = (startState , [])
-    fringe.push(startNode)
+    startstate =  problem.getStartState()
+    startnode= (startstate, []) 
+    fringe.push(startnode) 
     while not fringe.isEmpty():
-        currentState , actions = fringe.pop()
-        if currentState not in exploredNodes:
-            exploredNodes.append(currentState)
-            if problem.isGoalState(currentState):
-                return actions
-            else:
-                successors = problem.getSuccessors(currentState)
-                for succState , succAction , succCost in successors:
-                    newAction = actions + [succAction]
-                    newNode = (succState , newAction)
-                    fringe.push(newNode)
-    return actions                
-
-
+        state, path = fringe.pop()
+        if problem.isGoalState(state):
+            return path  
+        if state not in explorednodes:
+            explorednodes.add(state)  
+            for successor, action, stepCost in problem.expand(state):
+                if successor not in explorednodes:
+                    fringe.push((successor, path + [action]))
+    return []  
+    util.raiseNotDefined()
+    
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"

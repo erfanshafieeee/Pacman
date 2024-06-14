@@ -99,6 +99,9 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+
+
+
 def depthFirstSearch(problem):
     explorednodes = set() 
     fringe = util.Stack()
@@ -116,6 +119,14 @@ def depthFirstSearch(problem):
                     fringe.push((successor, path + [action]))
     return []  
     util.raiseNotDefined()
+
+
+
+
+
+
+
+    
     
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""

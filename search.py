@@ -165,16 +165,39 @@ def uniformCostSearch(problem):
 
     return actions
 
-def nullHeuristic(state, problem=None):
-    """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
-    """
-    return 0
+# def nullHeuristic(state, problem=None):
+#     """
+#     A heuristic function estimates the cost from the current state to the nearest
+#     goal in the provided SearchProblem.  This heuristic is trivial.
+#     """
+#     return 0
 
-def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
+def MANHATTANHeuristic(state, problem):
+    current_location = state  
+    goal_location = problem.goalState  
+    manhattan_distance = abs(current_location[0] - goal_location[0]) + abs(current_location[1] - goal_location[1])
+    return manhattan_distance
+
+
+def aStarSearch(problem, heuristic=MANHATTANHeuristic):
+    explored = set() 
+    frontier = util.PriorityQueue() 
+    startState = problem.getStartState()
+    frontier.push((startState, []), heuristic(startState, problem)) 
+
+    while not frontier.isEmpty():
+        state, path = frontier.pop()
+        if problem.isGoalState(state):
+            return path 
+        if state not in explored:
+            explored.add(state)  
+            for successor, action,stepCost in problem.expand(state):
+                if successor not in explored:
+                    newPath = path + [action]
+                    totalCost = problem.getCostOfActionSequence(newPath) + heuristic(successor, problem)
+                    frontier.push((successor, newPath), totalCost)
+
+    return [] 
     util.raiseNotDefined()
 
 

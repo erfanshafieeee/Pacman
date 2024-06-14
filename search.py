@@ -176,22 +176,22 @@ def MANHATTANHeuristic(state, problem):
 
 
 def aStarSearch(problem, heuristic=MANHATTANHeuristic):
-    explored = set() 
-    frontier = util.PriorityQueue() 
+    explorednodes = set() 
+    fringe = util.PriorityQueue() 
     startState = problem.getStartState()
-    frontier.push((startState, []), heuristic(startState, problem)) 
+    fringe.push((startState, []), heuristic(startState, problem)) 
 
-    while not frontier.isEmpty():
-        state, path = frontier.pop()
+    while not fringe.isEmpty():
+        state, path = fringe.pop()
         if problem.isGoalState(state):
             return path 
-        if state not in explored:
-            explored.add(state)  
+        if state not in explorednodes:
+            explorednodes.add(state)  
             for successor, action,stepCost in problem.expand(state):
-                if successor not in explored:
+                if successor not in explorednodes:
                     newPath = path + [action]
                     totalCost = problem.getCostOfActionSequence(newPath) + heuristic(successor, problem)
-                    frontier.push((successor, newPath), totalCost)
+                    fringe.push((successor, newPath), totalCost)
 
     return []
     util.raiseNotDefined()

@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+
 
 class SearchProblem:
     """
@@ -97,100 +98,107 @@ def tinyMazeSearch(problem):
     from game import Directions
     s = Directions.SOUTH
     w = Directions.WEST
-    return  [s, s, w, s, w, w, s, w]
-
+    return [s, s, w, s, w, w, s, w]
 
 
 def depthFirstSearch(problem):
-    explorednodes = set() 
+    explorednodes = set()
     fringe = util.Stack()
-    startstate =  problem.getStartState()
-    startnode= (startstate, []) 
-    fringe.push(startnode) 
+    startstate = problem.getStartState()
+    startnode = (startstate, [])
+    fringe.push(startnode)
     while not fringe.isEmpty():
         state, path = fringe.pop()
         if problem.isGoalState(state):
-            return path  
+            return path
         if state not in explorednodes:
-            explorednodes.add(state)  
+            explorednodes.add(state)
             for successor, action, stepCost in problem.expand(state):
                 if successor not in explorednodes:
                     fringe.push((successor, path + [action]))
-    return []  
+    return []
     util.raiseNotDefined()
 
 
 def breadthFirstSearch(problem):
-    explorednodes = set()  
-    fringe = util.Queue() 
+    explorednodes = set()
+    fringe = util.Queue()
     startstate = problem.getStartState()
-    startnode =(startstate,[])
-    fringe.push(startnode)  
+    startnode = (startstate, [])
+    fringe.push(startnode)
     while not fringe.isEmpty():
         state, path = fringe.pop()
         if problem.isGoalState(state):
-            return path  
+            return path
         if state not in explorednodes:
-            explorednodes.add(state)  
-            for successor, action ,stateCost  in problem.expand(state):
+            explorednodes.add(state)
+            for successor, action, stateCost in problem.expand(state):
                 if successor not in explorednodes:
                     fringe.push((successor, path + [action]))
-    return []  
+    return []
     util.raiseNotDefined()
 
 
 def uniformCostSearch(problem: SearchProblem):
-    explorednodes = set() 
-    fringe = util.PriorityQueue()  
+    explorednodes = set()
+    fringe = util.PriorityQueue()
     startState = problem.getStartState()
-    fringe.push((startState, []), 0)  
+    fringe.push((startState, []), 0)
     while not fringe.isEmpty():
         state, path = fringe.pop()
         if problem.isGoalState(state):
-            return path  
+            return path
         if state not in explorednodes:
-            explorednodes.add(state)  
+            explorednodes.add(state)
             for successor, action, stepCost in problem.expand(state):
                 if successor not in explorednodes:
                     newPath = path + [action]
                     totalCost = problem.getCostOfActionSequence(newPath)
                     fringe.push((successor, newPath), totalCost)
-    return []  
+    return []
     util.raiseNotDefined()
 
-    
-# def nullHeuristic(state, problem=None):
-#     """
-#     A heuristic function estimates the cost from the current state to the nearest
-#     goal in the provided SearchProblem.  This heuristic is trivial.
-#     """
-#     return 0
 
+def nullHeuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
 
-
-def MANHATTANHeuristic(state, problem):
+def manhattanHeuristic(state, problem):
     current_location = state  
     goal_location = problem.goalState  
     manhattan_distance = abs(current_location[0] - goal_location[0]) + abs(current_location[1] - goal_location[1])
     return manhattan_distance
 
 
+
+def MANHATTANHeuristic(state, problem):
+    current_location = state
+    goal_location = problem.goalState
+    manhattan_distance = abs(
+        current_location[0] - goal_location[0]) + abs(current_location[1] - goal_location[1])
+    return manhattan_distance
+
+
 def aStarSearch(problem, heuristic=MANHATTANHeuristic):
-    explorednodes = set() 
-    fringe = util.PriorityQueue() 
+    explorednodes = set()
+    fringe = util.PriorityQueue()
     startState = problem.getStartState()
-    fringe.push((startState, []), heuristic(startState, problem)) 
+    fringe.push((startState, []), heuristic(startState, problem))
 
     while not fringe.isEmpty():
         state, path = fringe.pop()
         if problem.isGoalState(state):
-            return path 
+            return path
         if state not in explorednodes:
-            explorednodes.add(state)  
-            for successor, action,stepCost in problem.expand(state):
+            explorednodes.add(state)
+            for successor, action, stepCost in problem.expand(state):
                 if successor not in explorednodes:
                     newPath = path + [action]
-                    totalCost = problem.getCostOfActionSequence(newPath) + heuristic(successor, problem)
+                    totalCost = problem.getCostOfActionSequence(
+                        newPath) + heuristic(successor, problem)
                     fringe.push((successor, newPath), totalCost)
 
     return []

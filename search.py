@@ -101,20 +101,25 @@ def tinyMazeSearch(problem):
 
 
 def depthFirstSearch(problem):
-    """
-    Search the deepest nodes in the search tree first.
+    fringe = util.Stack()
+    exploredNodes = []
+    startState = problem.getStartState()
+    startNode = (startState , [])
+    fringe.push(startNode)
+    while not fringe.isEmpty():
+        currentState , actions = fringe.pop()
+        if currentState not in exploredNodes:
+            exploredNodes.append(currentState)
+            if problem.isGoalState(currentState):
+                return actions
+            else:
+                successors = problem.getSuccessors(currentState)
+                for succState , succAction , succCost in successors:
+                    newAction = actions + [succAction]
+                    newNode = (succState , newAction)
+                    fringe.push(newNode)
+    return actions                
 
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
-
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
-
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""

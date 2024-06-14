@@ -115,28 +115,24 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
-
+    
 def breadthFirstSearch(problem):
-    fringe = util.Queue()
-    exploredNodes = []
-    startState = problem.getStartState()
-    startNode = (startState , [] , 0)
-    fringe.push(startNode)
+    explorednodes = set()  
+    fringe = util.Queue() 
+    startstate = problem.getStartState()
+    startnode =(startstate,[])
+    fringe.push(startnode)  
     while not fringe.isEmpty():
-        currentState , actions , currentCost = fringe.pop()
-        if currentState not in exploredNodes:
-            exploredNodes.append(currentState)
-            if problem.isGoalState(currentState):
-                return actions
-            else:
-                successors = problem.getSuccessors(currentState)
-                for succState , succAction , succCost in successors:
-                    newAction = actions + [succAction]
-                    newCost = currentCost + succCost
-                    newNode = (succState , newAction , newCost)
-
-                    fringe.push(newNode)
-    return actions
+        state, path = fringe.pop()
+        if problem.isGoalState(state):
+            return path  
+        if state not in explorednodes:
+            explorednodes.add(state)  
+            for successor, action ,stateCost  in problem.expand(state):
+                if successor not in explorednodes:
+                    fringe.push((successor, path + [action]))
+    return []  
+    util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """

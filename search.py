@@ -98,10 +98,6 @@ def tinyMazeSearch(problem):
     s = Directions.SOUTH
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
-
-
-
-
 def depthFirstSearch(problem):
     explorednodes = set() 
     fringe = util.Stack()
@@ -126,12 +122,23 @@ def depthFirstSearch(problem):
 
 
 
-    
+
+
+
+
+
     
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
+
+
+
+
+
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -139,6 +146,9 @@ def nullHeuristic(state, problem=None):
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
+
+
+
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""

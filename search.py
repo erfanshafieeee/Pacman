@@ -173,16 +173,7 @@ def manhattanHeuristic(state, problem):
     return manhattan_distance
 
 
-
-def MANHATTANHeuristic(state, problem):
-    current_location = state
-    goal_location = problem.goalState
-    manhattan_distance = abs(
-        current_location[0] - goal_location[0]) + abs(current_location[1] - goal_location[1])
-    return manhattan_distance
-
-
-def aStarSearch(problem, heuristic=MANHATTANHeuristic):
+def aStarSearch(problem, heuristic=nullHeuristic):
     explorednodes = set()
     fringe = util.PriorityQueue()
     startState = problem.getStartState()
@@ -208,4 +199,5 @@ def aStarSearch(problem, heuristic=MANHATTANHeuristic):
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
+ucs = uniformCostSearch
 astar = aStarSearch
